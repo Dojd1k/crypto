@@ -1,0 +1,38 @@
+tabula_recta = 'abcdefghijklmnopqrstuvwxyz'
+
+
+def encrypt(key, msg):
+    result = []
+    space = 0
+    for index, ch in enumerate(msg):
+        if ch != ' ':
+            mj = tabula_recta.index(ch)
+            kj = tabula_recta.index(key[(index - space) % len(key)])
+            cj = (mj + kj) % len(tabula_recta)
+            result.append(tabula_recta[cj])
+        else:
+            space += 1
+            result.append(' ')
+    return ''.join(result)
+
+
+def decrypt(key, text):
+    result = []
+    space = 0
+    for index, ch in enumerate(text):
+        if ch != ' ':
+            cj = tabula_recta.index(ch)
+            kj = tabula_recta.index(key[(index - space) % len(key)])
+            mj = (cj - kj) % len(tabula_recta)
+            result.append(tabula_recta[mj])
+        else:
+            space += 1
+            result.append(' ')
+    return ''.join(result)
+
+
+print(encrypt('klic', 'tajnytext'))  # dlrpiemzd
+print(encrypt('dlouhyklic', 'mega zasifrovany text'))  # ppuu gyctntrgohf roib
+
+print(decrypt('klic', 'dlrpiemzd'))  # tajnytext
+print(decrypt('dlouhyklic', 'ppuu gyctntrgohf roib'))  # mega zasifrovany text
